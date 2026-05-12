@@ -40,14 +40,26 @@ export function AuthForm() {
           throw new Error("Passwords do not match.");
         }
 
-        const { error } = await supabase.auth.signUp({
+        const { data: signUpData, error } = await supabase.auth.signUp({
           email,
           password,
-          options: { data: { display_name: displayName } },
+          options: {
+            data: { display_name: displayName },
+            emailRedirectTo: "https://migmart.vercel.app/auth/callback",
+          },
         });
 
         if (error) throw error;
-        toast.success("Account created. Complete onboarding next.");
+
+        // If email confirmation is required, Supabase returns a user but no session.
+        // identities being empty means the email is already registered.
+        if (signUpData.user && signUpData.user.identities?.length === 0) {
+          throw new Error("An account with this email already exists. Please sign in instead.");
+        }
+
+        // No session yet — user must verify their email first.
+        toast.success("Check your email! We've sent you a confirmation link.");
+        return;
       } else {
         const { error } = await supabase.auth.signInWithPassword({
           email,
@@ -66,7 +78,6 @@ export function AuthForm() {
         {
           user_id: user.id,
           display_name:
-            displayName ||
             (user.user_metadata?.display_name as string | undefined) ||
             email.split("@")[0],
         },
