@@ -1,9 +1,17 @@
 import { redirect } from "next/navigation";
+import { cookies } from "next/headers";
 import { AdminDashboard } from "@/components/admin-dashboard";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import type { Profile, UserEvent } from "@/lib/supabase/types";
 
 export default async function AdminPage() {
+  // Check admin session cookie first
+  const cookieStore = await cookies();
+  const hasAdminSession = cookieStore.get("admin_session")?.value === "1";
+  if (!hasAdminSession) {
+    redirect("/admin/login");
+  }
+
   const supabase = await createSupabaseServerClient();
   const {
     data: { user },
