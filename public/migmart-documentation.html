@@ -1,0 +1,1270 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MigMart – Technical Documentation</title>
+    <style>
+      :root {
+        --green: #15803d;
+        --green-light: #dcfce7;
+        --green-dark: #14532d;
+        --ink: #111827;
+        --muted: #6b7280;
+        --border: #e5e7eb;
+        --bg: #f9fafb;
+      }
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        color: var(--ink);
+        background: #fff;
+        line-height: 1.65;
+        font-size: 15px;
+      }
+      /* Cover */
+      .cover {
+        background: linear-gradient(
+          135deg,
+          #052e16 0%,
+          #14532d 45%,
+          #166534 100%
+        );
+        color: #fff;
+        padding: 72px 60px 60px;
+        position: relative;
+        overflow: hidden;
+      }
+      .cover::after {
+        content: "";
+        position: absolute;
+        right: -80px;
+        top: -80px;
+        width: 380px;
+        height: 380px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.04);
+      }
+      .cover-logo {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        background: rgba(255, 255, 255, 0.12);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 12px;
+        padding: 8px 16px;
+        margin-bottom: 40px;
+        font-weight: 700;
+        font-size: 18px;
+        letter-spacing: 0.3px;
+      }
+      .cover-logo span {
+        font-size: 22px;
+      }
+      .cover h1 {
+        font-size: 46px;
+        font-weight: 800;
+        line-height: 1.1;
+        max-width: 600px;
+        margin-bottom: 16px;
+      }
+      .cover h1 em {
+        color: #86efac;
+        font-style: normal;
+      }
+      .cover p {
+        color: rgba(255, 255, 255, 0.72);
+        font-size: 16px;
+        max-width: 520px;
+      }
+      .cover-meta {
+        margin-top: 48px;
+        display: flex;
+        gap: 32px;
+        flex-wrap: wrap;
+      }
+      .cover-meta-item {
+        font-size: 13px;
+        color: rgba(255, 255, 255, 0.55);
+      }
+      .cover-meta-item strong {
+        display: block;
+        color: #fff;
+        font-size: 15px;
+        margin-bottom: 2px;
+      }
+
+      /* Layout */
+      .container {
+        max-width: 860px;
+        margin: 0 auto;
+        padding: 0 40px;
+      }
+
+      /* TOC */
+      .toc {
+        background: var(--bg);
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        padding: 28px 32px;
+        margin: 48px 0 56px;
+      }
+      .toc h2 {
+        font-size: 13px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: var(--muted);
+        margin-bottom: 14px;
+      }
+      .toc ol {
+        padding-left: 20px;
+      }
+      .toc li {
+        margin-bottom: 6px;
+      }
+      .toc a {
+        color: var(--green);
+        text-decoration: none;
+        font-weight: 500;
+      }
+      .toc a:hover {
+        text-decoration: underline;
+      }
+
+      /* Sections */
+      section {
+        margin-bottom: 56px;
+      }
+      h2.section-heading {
+        font-size: 26px;
+        font-weight: 800;
+        color: var(--ink);
+        padding-bottom: 12px;
+        border-bottom: 2px solid var(--green-light);
+        margin-bottom: 24px;
+      }
+      h2.section-heading span {
+        display: inline-block;
+        background: var(--green);
+        color: #fff;
+        border-radius: 6px;
+        padding: 2px 9px;
+        font-size: 12px;
+        font-weight: 700;
+        vertical-align: middle;
+        margin-right: 10px;
+      }
+      h3 {
+        font-size: 17px;
+        font-weight: 700;
+        color: var(--ink);
+        margin: 24px 0 8px;
+      }
+      p {
+        margin-bottom: 14px;
+        color: #374151;
+      }
+
+      /* Cards grid */
+      .card-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+        gap: 14px;
+        margin: 16px 0;
+      }
+      .card {
+        background: var(--bg);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 16px 18px;
+      }
+      .card-icon {
+        font-size: 22px;
+        margin-bottom: 8px;
+      }
+      .card-title {
+        font-weight: 700;
+        font-size: 14px;
+        margin-bottom: 4px;
+      }
+      .card-desc {
+        font-size: 13px;
+        color: var(--muted);
+        line-height: 1.5;
+      }
+
+      /* Stack table */
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 16px 0;
+        font-size: 14px;
+      }
+      thead th {
+        background: var(--green-dark);
+        color: #fff;
+        text-align: left;
+        padding: 10px 14px;
+        font-weight: 600;
+      }
+      thead th:first-child {
+        border-radius: 8px 0 0 0;
+      }
+      thead th:last-child {
+        border-radius: 0 8px 0 0;
+      }
+      tbody tr:nth-child(even) {
+        background: var(--bg);
+      }
+      tbody td {
+        padding: 10px 14px;
+        border-bottom: 1px solid var(--border);
+        vertical-align: top;
+      }
+      tbody td:first-child {
+        font-weight: 600;
+        color: var(--green-dark);
+      }
+      tbody td code {
+        background: #f3f4f6;
+        padding: 1px 6px;
+        border-radius: 4px;
+        font-size: 12px;
+        font-family: "SF Mono", Menlo, monospace;
+      }
+
+      /* Tier table */
+      .tier-row td:nth-child(1) {
+        font-weight: 700;
+      }
+
+      /* Inline code */
+      code {
+        background: #f3f4f6;
+        padding: 2px 7px;
+        border-radius: 5px;
+        font-size: 12.5px;
+        font-family: "SF Mono", Menlo, Consolas, monospace;
+        color: #b91c1c;
+      }
+
+      /* Tag pills */
+      .tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin: 14px 0;
+      }
+      .tag {
+        background: var(--green-light);
+        color: var(--green-dark);
+        border-radius: 99px;
+        padding: 4px 12px;
+        font-size: 13px;
+        font-weight: 600;
+      }
+
+      /* Flow diagram */
+      .flow {
+        display: flex;
+        align-items: center;
+        gap: 0;
+        flex-wrap: wrap;
+        margin: 16px 0;
+      }
+      .flow-step {
+        background: var(--green);
+        color: #fff;
+        border-radius: 8px;
+        padding: 8px 16px;
+        font-size: 13px;
+        font-weight: 600;
+        white-space: nowrap;
+      }
+      .flow-arrow {
+        color: var(--muted);
+        font-size: 18px;
+        padding: 0 6px;
+      }
+
+      /* Note box */
+      .note {
+        background: #fffbeb;
+        border-left: 4px solid #f59e0b;
+        border-radius: 0 8px 8px 0;
+        padding: 12px 16px;
+        font-size: 13.5px;
+        color: #92400e;
+        margin: 16px 0;
+      }
+
+      /* Badge list */
+      .badge-list {
+        list-style: none;
+        padding: 0;
+      }
+      .badge-list li {
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+        padding: 10px 0;
+        border-bottom: 1px solid var(--border);
+        font-size: 14px;
+      }
+      .badge-list li:last-child {
+        border-bottom: none;
+      }
+      .badge-list li span:first-child {
+        font-size: 20px;
+        line-height: 1;
+        flex-shrink: 0;
+      }
+      .badge-list li strong {
+        display: block;
+        margin-bottom: 2px;
+      }
+      .badge-list li small {
+        color: var(--muted);
+      }
+
+      /* Footer */
+      footer {
+        background: var(--ink);
+        color: rgba(255, 255, 255, 0.55);
+        text-align: center;
+        padding: 28px;
+        font-size: 13px;
+        margin-top: 80px;
+      }
+      footer strong {
+        color: #fff;
+      }
+
+      @media print {
+        .cover {
+          -webkit-print-color-adjust: exact;
+          print-color-adjust: exact;
+        }
+        thead th {
+          -webkit-print-color-adjust: exact;
+          print-color-adjust: exact;
+        }
+        section {
+          page-break-inside: avoid;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- ── Cover ── -->
+    <div class="cover">
+      <div class="cover-logo"><span>🛒</span> MigMart</div>
+      <h1>Technical &amp; Product <em>Documentation</em></h1>
+      <p>
+        A full-stack grocery loyalty platform built for presentation —
+        demonstrating real-time rewards, gamification, and e-commerce UX.
+      </p>
+      <div class="cover-meta">
+        <div class="cover-meta-item"><strong>Version</strong>0.1.0</div>
+        <div class="cover-meta-item">
+          <strong>Framework</strong>Next.js 16.2.6
+        </div>
+        <div class="cover-meta-item">
+          <strong>Database</strong>Supabase (Postgres)
+        </div>
+        <div class="cover-meta-item">
+          <strong>Currency</strong>Ghanaian Cedis (GHS)
+        </div>
+        <div class="cover-meta-item">
+          <strong>Deployed</strong>migmart.vercel.app
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <!-- TOC -->
+      <div class="toc">
+        <h2>Contents</h2>
+        <ol>
+          <li><a href="#overview">App Overview</a></li>
+          <li><a href="#tech">Tech Stack</a></li>
+          <li><a href="#architecture">Architecture &amp; Routing</a></li>
+          <li><a href="#auth">Authentication &amp; Onboarding</a></li>
+          <li><a href="#storefront">Storefront</a></li>
+          <li><a href="#loyalty">Loyalty &amp; Points System</a></li>
+          <li><a href="#spin">Spin-to-Win Wheel</a></li>
+          <li><a href="#challenges">Challenges</a></li>
+          <li><a href="#rewards">Reward Catalog</a></li>
+          <li><a href="#badges">Badges &amp; Achievements</a></li>
+          <li><a href="#referrals">Referral System</a></li>
+          <li><a href="#leaderboard">Leaderboard</a></li>
+          <li><a href="#admin">Admin Dashboard</a></li>
+          <li><a href="#data">Data Layer</a></li>
+        </ol>
+      </div>
+
+      <!-- 1. Overview -->
+      <section id="overview">
+        <h2 class="section-heading"><span>01</span>App Overview</h2>
+        <p>
+          <strong>MigMart</strong> is a loyalty-enabled grocery shopping
+          platform. It simulates a real-world retail experience where customers
+          earn points on purchases, spin a daily prize wheel, complete
+          challenges, unlock badges, and redeem points for discounts and free
+          items — all within a polished, mobile-friendly web app.
+        </p>
+        <p>
+          The platform is designed for a project presentation and uses a mix of
+          real backend infrastructure (Supabase for auth, profiles, and event
+          logging) with client-side localStorage simulation for features like
+          challenge progress, referral history, and checkout counts that would
+          normally require a more complex backend.
+        </p>
+        <div class="tags">
+          <span class="tag">E-commerce</span>
+          <span class="tag">Loyalty Program</span>
+          <span class="tag">Gamification</span>
+          <span class="tag">Real-time</span>
+          <span class="tag">Full-stack</span>
+          <span class="tag">Ghana 🇬🇭</span>
+        </div>
+      </section>
+
+      <!-- 2. Tech Stack -->
+      <section id="tech">
+        <h2 class="section-heading"><span>02</span>Tech Stack</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Layer</th>
+              <th>Technology</th>
+              <th>Purpose</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Framework</td>
+              <td>Next.js 16.2.6 (App Router)</td>
+              <td>Server components, server actions, routing, SSR/SSG</td>
+            </tr>
+            <tr>
+              <td>Language</td>
+              <td>TypeScript</td>
+              <td>Type-safe throughout the entire codebase</td>
+            </tr>
+            <tr>
+              <td>Styling</td>
+              <td>Tailwind CSS v4</td>
+              <td>
+                Utility-first CSS; CSS custom properties via
+                <code>var(--token)</code>
+              </td>
+            </tr>
+            <tr>
+              <td>Database &amp; Auth</td>
+              <td>Supabase (Postgres)</td>
+              <td>
+                User auth, profiles, event logging, point ledger, achievements
+              </td>
+            </tr>
+            <tr>
+              <td>Supabase Client</td>
+              <td>@supabase/ssr</td>
+              <td>
+                Cookie-based sessions; separate browser and server clients
+              </td>
+            </tr>
+            <tr>
+              <td>State Management</td>
+              <td>Zustand</td>
+              <td>Shopping cart (items, quantity, subtotal, open/close)</td>
+            </tr>
+            <tr>
+              <td>Charts</td>
+              <td>Chart.js + react-chartjs-2</td>
+              <td>Spin-to-Win doughnut wheel with custom draw plugin</td>
+            </tr>
+            <tr>
+              <td>Animations</td>
+              <td>Framer Motion</td>
+              <td>Page entry animations, section transitions</td>
+            </tr>
+            <tr>
+              <td>Toasts</td>
+              <td>Sonner</td>
+              <td>Non-blocking success/error notifications</td>
+            </tr>
+            <tr>
+              <td>Icons</td>
+              <td>lucide-react</td>
+              <td>Consistent icon set throughout UI</td>
+            </tr>
+            <tr>
+              <td>Persistence (sim.)</td>
+              <td>localStorage</td>
+              <td>
+                Challenge progress, referral history, checkout count (frontend
+                simulation)
+              </td>
+            </tr>
+            <tr>
+              <td>Deployment</td>
+              <td>Vercel</td>
+              <td>Production hosting at migmart.vercel.app</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- 3. Architecture -->
+      <section id="architecture">
+        <h2 class="section-heading">
+          <span>03</span>Architecture &amp; Routing
+        </h2>
+        <p>
+          MigMart uses Next.js App Router with a clear split between
+          server-rendered pages and interactive client components.
+        </p>
+        <table>
+          <thead>
+            <tr>
+              <th>Route</th>
+              <th>Type</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>/auth</code></td>
+              <td>Server + Client</td>
+              <td>Sign in / Sign up page with split-panel layout</td>
+            </tr>
+            <tr>
+              <td><code>/auth/callback</code></td>
+              <td>Server (Route Handler)</td>
+              <td>Exchanges Supabase email verification code for a session</td>
+            </tr>
+            <tr>
+              <td><code>/onboarding</code></td>
+              <td>Server + Client</td>
+              <td>First-time setup: display name, preferences</td>
+            </tr>
+            <tr>
+              <td><code>/</code></td>
+              <td>Server + Client</td>
+              <td>Main storefront — requires authentication</td>
+            </tr>
+            <tr>
+              <td><code>/admin</code></td>
+              <td>Server</td>
+              <td>
+                Admin dashboard — requires auth + <code>is_admin</code> flag +
+                session cookie
+              </td>
+            </tr>
+            <tr>
+              <td><code>/admin/login</code></td>
+              <td>Server + Client</td>
+              <td>Password gate for admin access</td>
+            </tr>
+          </tbody>
+        </table>
+        <h3>Key Directories</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Path</th>
+              <th>Contents</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>app/</code></td>
+              <td>Next.js App Router pages and layouts</td>
+            </tr>
+            <tr>
+              <td><code>components/</code></td>
+              <td>All React UI components</td>
+            </tr>
+            <tr>
+              <td><code>components/ui/</code></td>
+              <td>Primitive components: Button, Card, Input, ConfirmModal</td>
+            </tr>
+            <tr>
+              <td><code>lib/</code></td>
+              <td>
+                Business logic: products, store (Zustand), challenges, rewards,
+                badges, referrals, utils
+              </td>
+            </tr>
+            <tr>
+              <td><code>lib/supabase/</code></td>
+              <td>Browser and server Supabase clients, TypeScript types</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- 4. Auth -->
+      <section id="auth">
+        <h2 class="section-heading">
+          <span>04</span>Authentication &amp; Onboarding
+        </h2>
+        <p>
+          Authentication is handled entirely by Supabase Auth using email +
+          password. Google and Apple OAuth were deliberately removed in favour
+          of a clean, simple email-only flow.
+        </p>
+        <h3>Sign Up Flow</h3>
+        <div class="flow">
+          <div class="flow-step">Enter name, email, password</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step">Supabase sends verification email</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step">User clicks link → /auth/callback</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step">Session created → /onboarding</div>
+        </div>
+        <h3>Sign In Flow</h3>
+        <div class="flow">
+          <div class="flow-step">Enter email + password</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step">Supabase validates credentials</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step">Profile fetched → / or /onboarding</div>
+        </div>
+        <div class="note">
+          <strong>Email verification redirect:</strong> Set to
+          <code>https://migmart.vercel.app/auth/callback</code> — the callback
+          route exchanges the one-time code for a real session cookie and
+          upserts the user profile before redirecting to onboarding.
+        </div>
+        <h3>Session &amp; Security</h3>
+        <p>
+          Sessions are managed via <code>@supabase/ssr</code> cookie-based
+          tokens, handled server-side. Protected routes check for a valid
+          session using <code>createSupabaseServerClient()</code> and redirect
+          to <code>/auth</code> if none is found. Sign-out is guarded by a
+          confirmation modal so users don't accidentally log out.
+        </p>
+      </section>
+
+      <!-- 5. Storefront -->
+      <section id="storefront">
+        <h2 class="section-heading"><span>05</span>Storefront</h2>
+        <p>
+          The main page (<code>/</code>) is the storefront — a server-rendered
+          page that loads the user's profile, leaderboard, and achievements from
+          Supabase, then passes them as props to the
+          <code>Storefront</code> client component.
+        </p>
+        <p>The storefront is organised into four tabs:</p>
+        <div class="card-grid">
+          <div class="card">
+            <div class="card-icon">🛍️</div>
+            <div class="card-title">Shop</div>
+            <div class="card-desc">
+              Browse and filter products by category or keyword. Add to cart,
+              view discounts, and checkout.
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-icon">🏆</div>
+            <div class="card-title">Challenges</div>
+            <div class="card-desc">
+              Active and weekly challenges that award bonus points when
+              completed. Progress tracked in localStorage.
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-icon">🎁</div>
+            <div class="card-title">Rewards</div>
+            <div class="card-desc">
+              Redeem earned points for discounts (GHC 5–25 off) or free grocery
+              items.
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-icon">🔗</div>
+            <div class="card-title">Referral</div>
+            <div class="card-desc">
+              Share your unique code with friends. Simulated referral tracking
+              via localStorage.
+            </div>
+          </div>
+        </div>
+        <h3>Product Catalogue</h3>
+        <p>
+          Products are defined statically in <code>lib/products.ts</code> across
+          6 categories: Fruits &amp; Veggies, Dairy &amp; Eggs, Beverages,
+          Snacks, Bakery, and Household. Each product has a name, price (in
+          GHS), optional discount %, image, rating, and unit size. Prices are
+          displayed using the Ghanaian Cedi format (e.g. GH₵ 5.84).
+        </p>
+        <h3>Shopping Cart</h3>
+        <p>
+          The cart is managed by a <strong>Zustand</strong> store
+          (<code>lib/store.ts</code>) — entirely in-memory. The cart drawer
+          slides in from the right, supports quantity adjustments and item
+          removal, and shows the live subtotal. Checkout is guarded by a
+          confirmation modal showing the total and the points the user will
+          earn.
+        </p>
+      </section>
+
+      <!-- 6. Loyalty -->
+      <section id="loyalty">
+        <h2 class="section-heading">
+          <span>06</span>Loyalty &amp; Points System
+        </h2>
+        <p>
+          Points are the core currency of MigMart's engagement layer. Every
+          action a user takes can award points, which accumulate towards tier
+          upgrades and can be redeemed for rewards.
+        </p>
+        <h3>How Points Are Earned</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Action</th>
+              <th>Points Awarded</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Checkout</td>
+              <td>1 pt per GHC 1 spent (e.g. GHC 45 order → 45 pts)</td>
+            </tr>
+            <tr>
+              <td>Daily Spin</td>
+              <td>25 – 160 pts depending on wheel segment</td>
+            </tr>
+            <tr>
+              <td>Completing a Challenge</td>
+              <td>50 – 100 pts per challenge</td>
+            </tr>
+            <tr>
+              <td>Referring a friend</td>
+              <td>50 pts per successful referral</td>
+            </tr>
+          </tbody>
+        </table>
+        <h3>Loyalty Tiers</h3>
+        <table class="tier-row">
+          <thead>
+            <tr>
+              <th>Tier</th>
+              <th>Points Required</th>
+              <th>Benefits</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>🥉 Bronze</td>
+              <td>0 pts</td>
+              <td>Access to spin wheel and basic rewards</td>
+            </tr>
+            <tr>
+              <td>🥈 Silver</td>
+              <td>700 pts</td>
+              <td>Silver badge unlocked; higher reward eligibility</td>
+            </tr>
+            <tr>
+              <td>🥇 Gold</td>
+              <td>1,600 pts</td>
+              <td>Gold badge unlocked</td>
+            </tr>
+            <tr>
+              <td>💎 VIP</td>
+              <td>3,000 pts</td>
+              <td>VIP badge unlocked; full reward catalogue access</td>
+            </tr>
+          </tbody>
+        </table>
+        <p>
+          Tier progress is shown in the Loyalty Vault with a progress bar and a
+          label showing how many points remain to the next tier. Points and
+          tiers are stored in Supabase and reflected in real time.
+        </p>
+      </section>
+
+      <!-- 7. Spin Wheel -->
+      <section id="spin">
+        <h2 class="section-heading"><span>07</span>Spin-to-Win Wheel</h2>
+        <p>
+          The spin wheel is an interactive
+          <strong>Chart.js Doughnut</strong> chart with 8 coloured segments, a
+          custom canvas label plugin, and a CSS
+          <code>transform: rotate()</code> animation that lands precisely on the
+          winning segment every time.
+        </p>
+        <h3>Segments</h3>
+        <div class="card-grid">
+          <div class="card">
+            <div class="card-icon" style="color: #f97316">●</div>
+            <div class="card-title">25 pts</div>
+            <div class="card-desc">Orange</div>
+          </div>
+          <div class="card">
+            <div class="card-icon" style="color: #ef4444">●</div>
+            <div class="card-title">30 pts</div>
+            <div class="card-desc">Red</div>
+          </div>
+          <div class="card">
+            <div class="card-icon" style="color: #8b5cf6">●</div>
+            <div class="card-title">40 pts</div>
+            <div class="card-desc">Violet</div>
+          </div>
+          <div class="card">
+            <div class="card-icon" style="color: #22c55e">●</div>
+            <div class="card-title">50 pts</div>
+            <div class="card-desc">Green</div>
+          </div>
+          <div class="card">
+            <div class="card-icon" style="color: #06b6d4">●</div>
+            <div class="card-title">75 pts</div>
+            <div class="card-desc">Cyan</div>
+          </div>
+          <div class="card">
+            <div class="card-icon" style="color: #3b82f6">●</div>
+            <div class="card-title">100 pts</div>
+            <div class="card-desc">Blue</div>
+          </div>
+          <div class="card">
+            <div class="card-icon" style="color: #ec4899">●</div>
+            <div class="card-title">120 pts</div>
+            <div class="card-desc">Pink</div>
+          </div>
+          <div class="card">
+            <div class="card-icon" style="color: #eab308">●</div>
+            <div class="card-title">160 pts</div>
+            <div class="card-desc">Yellow</div>
+          </div>
+        </div>
+        <h3>How It Works</h3>
+        <p>
+          A random segment is chosen. The wheel calculates the exact rotation
+          delta needed (accounting for accumulated prior spins) so the pointer
+          arrow always stops at the centre of the winning segment. The spin
+          animation runs for 4 seconds with a custom cubic-bezier easing for a
+          realistic deceleration. Points are written to Supabase on completion.
+        </p>
+        <div class="note">
+          Spins are limited by the <code>spins_available</code> field in the
+          user's profile. Once spins run out, the button is disabled.
+        </div>
+      </section>
+
+      <!-- 8. Challenges -->
+      <section id="challenges">
+        <h2 class="section-heading"><span>08</span>Challenges</h2>
+        <p>
+          Challenges give users goals to work towards beyond just shopping. They
+          are defined in <code>lib/challenges.ts</code> and progress is tracked
+          in <strong>localStorage</strong> (simulated for presentation).
+        </p>
+        <table>
+          <thead>
+            <tr>
+              <th>Challenge</th>
+              <th>Goal</th>
+              <th>Reward</th>
+              <th>Type</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>🛒 First Basket</td>
+              <td>Spend GHC 50 in one checkout</td>
+              <td>80 pts</td>
+              <td>Evergreen</td>
+            </tr>
+            <tr>
+              <td>🎡 Spin Addict</td>
+              <td>Spin the wheel 3 times</td>
+              <td>60 pts</td>
+              <td>Evergreen</td>
+            </tr>
+            <tr>
+              <td>🏪 Regular Shopper</td>
+              <td>Complete 3 checkouts</td>
+              <td>100 pts</td>
+              <td>Evergreen</td>
+            </tr>
+            <tr>
+              <td>🎁 Reward Hunter</td>
+              <td>Redeem a reward from the catalogue</td>
+              <td>50 pts</td>
+              <td>Evergreen</td>
+            </tr>
+            <tr>
+              <td>💸 Big Spender</td>
+              <td>Spend GHC 200+ in one order</td>
+              <td>150 pts</td>
+              <td>Weekly</td>
+            </tr>
+            <tr>
+              <td>🔗 Referral Starter</td>
+              <td>Refer 1 friend</td>
+              <td>75 pts</td>
+              <td>Weekly</td>
+            </tr>
+            <tr>
+              <td>🎰 Spin Master</td>
+              <td>Spin 5 times in a week</td>
+              <td>90 pts</td>
+              <td>Weekly</td>
+            </tr>
+            <tr>
+              <td>💎 Loyal Customer</td>
+              <td>Make 5 checkouts</td>
+              <td>120 pts</td>
+              <td>Weekly</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- 9. Rewards -->
+      <section id="rewards">
+        <h2 class="section-heading"><span>09</span>Reward Catalog</h2>
+        <p>
+          Users can spend accumulated points in the Rewards tab. Each redemption
+          is guarded by a confirmation modal. Rewards are defined in
+          <code>lib/rewards.ts</code>.
+        </p>
+        <table>
+          <thead>
+            <tr>
+              <th>Reward</th>
+              <th>Cost</th>
+              <th>Type</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>🏷️ GHC 5 Off</td>
+              <td>75 pts</td>
+              <td>Checkout discount</td>
+            </tr>
+            <tr>
+              <td>💵 GHC 10 Off</td>
+              <td>150 pts</td>
+              <td>Checkout discount</td>
+            </tr>
+            <tr>
+              <td>💳 GHC 25 Off</td>
+              <td>300 pts</td>
+              <td>Checkout discount</td>
+            </tr>
+            <tr>
+              <td>🥑 Free Avocados</td>
+              <td>120 pts</td>
+              <td>Free item</td>
+            </tr>
+            <tr>
+              <td>🍞 Free Sourdough</td>
+              <td>100 pts</td>
+              <td>Free item</td>
+            </tr>
+            <tr>
+              <td>🎰 Bonus Spin</td>
+              <td>50 pts</td>
+              <td>Extra spin</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- 10. Badges -->
+      <section id="badges">
+        <h2 class="section-heading">
+          <span>10</span>Badges &amp; Achievements
+        </h2>
+        <p>
+          Badges are permanently unlocked by completing specific actions. They
+          are stored in Supabase and visible on the Achievements panel. Locked
+          badges appear greyed out to motivate completion.
+        </p>
+        <ul class="badge-list">
+          <li>
+            <span>🎡</span>
+            <div>
+              <strong>First Spin</strong
+              ><small>Spin the wheel for the first time</small>
+            </div>
+          </li>
+          <li>
+            <span>💥</span>
+            <div>
+              <strong>Big Win</strong
+              ><small>Win 120+ points in a single spin</small>
+            </div>
+          </li>
+          <li>
+            <span>🎁</span>
+            <div>
+              <strong>Reward Hunter</strong
+              ><small>Redeem any reward from the catalogue</small>
+            </div>
+          </li>
+          <li>
+            <span>🛒</span>
+            <div>
+              <strong>First Purchase</strong
+              ><small>Complete your first checkout</small>
+            </div>
+          </li>
+          <li>
+            <span>💰</span>
+            <div>
+              <strong>Big Spender</strong
+              ><small>Check out with GHC 200 or more</small>
+            </div>
+          </li>
+          <li>
+            <span>🏪</span>
+            <div>
+              <strong>Regular Shopper</strong
+              ><small>Complete 3 checkouts total</small>
+            </div>
+          </li>
+          <li>
+            <span>🥈</span>
+            <div>
+              <strong>Silver Member</strong
+              ><small>Reach Silver tier (700 pts)</small>
+            </div>
+          </li>
+          <li>
+            <span>🥇</span>
+            <div>
+              <strong>Gold Member</strong
+              ><small>Reach Gold tier (1,600 pts)</small>
+            </div>
+          </li>
+          <li>
+            <span>💎</span>
+            <div>
+              <strong>VIP Member</strong
+              ><small>Reach VIP tier (3,000 pts)</small>
+            </div>
+          </li>
+          <li>
+            <span>🔗</span>
+            <div>
+              <strong>Referral Master</strong
+              ><small>Refer 3 or more friends</small>
+            </div>
+          </li>
+          <li>
+            <span>🏅</span>
+            <div>
+              <strong>Challenge Master</strong
+              ><small>Complete 5 or more challenges</small>
+            </div>
+          </li>
+        </ul>
+      </section>
+
+      <!-- 11. Referrals -->
+      <section id="referrals">
+        <h2 class="section-heading"><span>11</span>Referral System</h2>
+        <p>
+          Each user gets a unique referral code generated from their user ID and
+          display name. Referrals are simulated via localStorage
+          (<code>lib/referrals.ts</code>) for presentation purposes.
+        </p>
+        <h3>How It Works</h3>
+        <div class="flow">
+          <div class="flow-step">User copies their code</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step">Enters a friend's name to simulate invite</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step">50 pts awarded + referral logged</div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step">Referral appears in history list</div>
+        </div>
+        <p>
+          In a production system, the referral code would be tied to a sign-up
+          flow, validated server-side, and the points awarded only after the
+          friend completes their first purchase.
+        </p>
+      </section>
+
+      <!-- 12. Leaderboard -->
+      <section id="leaderboard">
+        <h2 class="section-heading"><span>12</span>Leaderboard</h2>
+        <p>
+          A ranked list of top shoppers by points, fetched server-side from
+          Supabase profiles. Key UX details:
+        </p>
+        <ul
+          style="
+            padding-left: 20px;
+            margin: 12px 0;
+            font-size: 14px;
+            color: #374151;
+          "
+        >
+          <li style="margin-bottom: 8px">
+            Top 3 receive medal icons (🥇 🥈 🥉)
+          </li>
+          <li style="margin-bottom: 8px">
+            The current user is labelled <em>"(you)"</em> for context
+          </li>
+          <li style="margin-bottom: 8px">
+            A contextual hint shows how many points the user is behind the next
+            rank
+          </li>
+          <li style="margin-bottom: 8px">
+            Users can opt out of visibility with the eye icon — their entry is
+            hidden from other users
+          </li>
+        </ul>
+      </section>
+
+      <!-- 13. Admin -->
+      <section id="admin">
+        <h2 class="section-heading"><span>13</span>Admin Dashboard</h2>
+        <p>
+          A protected admin area accessible at <code>/admin</code>. Access
+          requires two checks to pass:
+        </p>
+        <ol
+          style="
+            padding-left: 20px;
+            margin: 12px 0;
+            font-size: 14px;
+            color: #374151;
+            line-height: 2;
+          "
+        >
+          <li>
+            A valid <code>admin_session</code> httpOnly cookie set by the
+            password gate (<code>/admin/login</code>)
+          </li>
+          <li>
+            The user's Supabase profile must have <code>is_admin = true</code>
+          </li>
+        </ol>
+        <p>
+          The admin password is stored as an environment variable
+          (<code>ADMIN_PASSWORD</code>) and never exposed to the client. The
+          session cookie expires after 8 hours.
+        </p>
+        <p>
+          The admin dashboard (rendered by
+          <code>components/admin-dashboard.tsx</code>) provides an overview of
+          platform metrics and user activity.
+        </p>
+      </section>
+
+      <!-- 14. Data Layer -->
+      <section id="data">
+        <h2 class="section-heading"><span>14</span>Data Layer</h2>
+        <p>
+          Persistent data lives in Supabase Postgres. The following tables are
+          used:
+        </p>
+        <table>
+          <thead>
+            <tr>
+              <th>Table</th>
+              <th>Key Columns</th>
+              <th>Purpose</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>profiles</code></td>
+              <td>
+                user_id, display_name, points, tier, spins_available, is_admin,
+                onboarding_completed
+              </td>
+              <td>Core user state</td>
+            </tr>
+            <tr>
+              <td><code>user_events</code></td>
+              <td>user_id, event_type, payload</td>
+              <td>Audit log of all significant actions</td>
+            </tr>
+            <tr>
+              <td><code>spin_events</code></td>
+              <td>user_id, reward_points, reward_type, metadata</td>
+              <td>Records each wheel spin outcome</td>
+            </tr>
+            <tr>
+              <td><code>point_ledger</code></td>
+              <td>user_id, points_change, reason, metadata</td>
+              <td>Double-entry log of all point transactions</td>
+            </tr>
+            <tr>
+              <td><code>user_achievements</code></td>
+              <td>user_id, achievement_key, unlocked_at</td>
+              <td>Unlocked badge records</td>
+            </tr>
+            <tr>
+              <td><code>achievements</code></td>
+              <td>key, title, description</td>
+              <td>Badge definitions reference table</td>
+            </tr>
+          </tbody>
+        </table>
+        <h3>Client vs. Server Data</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Data</th>
+              <th>Storage</th>
+              <th>Why</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>User profile, points, tier</td>
+              <td>Supabase</td>
+              <td>Persistent, real-time, multi-device</td>
+            </tr>
+            <tr>
+              <td>Badge unlocks</td>
+              <td>Supabase (via RPC)</td>
+              <td>Permanent record</td>
+            </tr>
+            <tr>
+              <td>Challenge progress</td>
+              <td>localStorage</td>
+              <td>Simulated for presentation</td>
+            </tr>
+            <tr>
+              <td>Referral history</td>
+              <td>localStorage</td>
+              <td>Simulated for presentation</td>
+            </tr>
+            <tr>
+              <td>Checkout count</td>
+              <td>localStorage</td>
+              <td>Simulated for presentation</td>
+            </tr>
+            <tr>
+              <td>Shopping cart</td>
+              <td>Zustand (in-memory)</td>
+              <td>Session-only, no persistence needed</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+    </div>
+
+    <footer>
+      <strong>MigMart</strong> &nbsp;·&nbsp; Built with Next.js, Supabase &amp;
+      Tailwind CSS &nbsp;·&nbsp; migmart.vercel.app
+    </footer>
+  </body>
+</html>
