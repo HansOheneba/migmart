@@ -28,5 +28,7 @@ export async function GET(request: Request) {
   }
 
   // Something went wrong — send back to auth with an error hint
-  return NextResponse.redirect(new URL("/auth?error=verification_failed", url.origin));
+  return NextResponse.redirect(
+    new URL("/auth?error=verification_failed", url.origin),
+  );
 }

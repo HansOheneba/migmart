@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { ShoppingBasket } from "lucide-react";
@@ -54,7 +55,9 @@ export function AuthForm() {
         // If email confirmation is required, Supabase returns a user but no session.
         // identities being empty means the email is already registered.
         if (signUpData.user && signUpData.user.identities?.length === 0) {
-          throw new Error("An account with this email already exists. Please sign in instead.");
+          throw new Error(
+            "An account with this email already exists. Please sign in instead.",
+          );
         }
 
         // No session yet — user must verify their email first.
@@ -103,11 +106,18 @@ export function AuthForm() {
   return (
     <div className="flex min-h-screen">
       {/* ── Left panel ── */}
-      <div className="relative hidden w-[52%] flex-col justify-between overflow-hidden bg-[linear-gradient(135deg,#0d5c42_0%,#166534_40%,#14532d_70%,#052e16_100%)] p-12 lg:flex">
-        {/* decorative blobs */}
-        <div className="pointer-events-none absolute -left-20 -top-20 h-80 w-80 rounded-full bg-white/5 blur-3xl" />
-        <div className="pointer-events-none absolute -bottom-16 -right-16 h-72 w-72 rounded-full bg-lime-400/10 blur-3xl" />
-        <div className="pointer-events-none absolute left-1/2 top-1/2 h-56 w-56 -translate-x-1/2 -translate-y-1/2 rounded-full bg-emerald-300/5 blur-2xl" />
+      <div className="relative hidden w-[52%] flex-col justify-between overflow-hidden p-12 lg:flex">
+        {/* Background image */}
+        <Image
+          src="https://images.unsplash.com/photo-1719277836523-e0c337fdd6ef?q=80&w=1374&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+          alt="Fresh groceries"
+          fill
+          sizes="52vw"
+          className="object-cover"
+          priority
+        />
+        {/* Dark overlay so text stays readable */}
+        <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(160deg,rgba(5,30,15,0.55)_0%,rgba(5,30,15,0.72)_100%)]" />
 
         {/* Logo */}
         <div className="relative z-10 flex items-center gap-2">
