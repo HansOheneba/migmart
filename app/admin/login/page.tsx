@@ -22,7 +22,9 @@ export default function AdminLoginPage() {
           <div className="flex h-12 w-12 items-center justify-center rounded-full bg-(--green-900)">
             <ShieldCheck className="h-6 w-6 text-white" />
           </div>
-          <h1 className="font-heading text-2xl text-(--ink-900)">Admin Access</h1>
+          <h1 className="font-heading text-2xl text-(--ink-900)">
+            Admin Access
+          </h1>
           <p className="text-sm text-(--ink-500)">
             Enter the admin password to continue.
           </p>

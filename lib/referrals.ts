@@ -11,8 +11,14 @@ export type ReferralEntry = {
 };
 
 /** Deterministically generate a code from the user's display name + id */
-export function generateReferralCode(userId: string, displayName: string): string {
-  const base = (displayName ?? "user").toUpperCase().replace(/\s+/g, "").slice(0, 4);
+export function generateReferralCode(
+  userId: string,
+  displayName: string,
+): string {
+  const base = (displayName ?? "user")
+    .toUpperCase()
+    .replace(/\s+/g, "")
+    .slice(0, 4);
   const suffix = userId.slice(-4).toUpperCase();
   return `${base}${suffix}`;
 }
@@ -41,7 +47,9 @@ export function applyReferral(
   friendName: string,
 ): { ok: boolean; message: string } {
   const existing = loadReferrals(referrerId);
-  if (existing.some((r) => r.usedBy.toLowerCase() === friendName.toLowerCase())) {
+  if (
+    existing.some((r) => r.usedBy.toLowerCase() === friendName.toLowerCase())
+  ) {
     return { ok: false, message: "This friend has already used your code." };
   }
   const entry: ReferralEntry = {
@@ -51,5 +59,8 @@ export function applyReferral(
     rewardGranted: true,
   };
   saveReferrals(referrerId, [...existing, entry]);
-  return { ok: true, message: `${friendName} joined with your referral. +120 pts awarded!` };
+  return {
+    ok: true,
+    message: `${friendName} joined with your referral. +120 pts awarded!`,
+  };
 }

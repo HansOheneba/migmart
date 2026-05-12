@@ -1,7 +1,9 @@
 "use client";
 
+import { useState } from "react";
 import { Trophy, Zap } from "lucide-react";
 import { Card } from "@/components/ui/card";
+import { ConfirmModal } from "@/components/ui/confirm-modal";
 import { REWARD_CATALOG, type RewardItem } from "@/lib/rewards";
 
 type LoyaltyPanelProps = {
@@ -10,7 +12,10 @@ type LoyaltyPanelProps = {
   onRedeem: (reward: RewardItem) => void;
 };
 
-const TIER_PROGRESS: Record<string, { next: string; target: number; label: string }> = {
+const TIER_PROGRESS: Record<
+  string,
+  { next: string; target: number; label: string }
+> = {
   Bronze: { next: "Silver", target: 700, label: "Silver" },
   Silver: { next: "Gold", target: 1600, label: "Gold" },
   Gold: { next: "VIP", target: 3000, label: "VIP" },
@@ -18,16 +23,25 @@ const TIER_PROGRESS: Record<string, { next: string; target: number; label: strin
 };
 
 export function LoyaltyPanel({ points, tier, onRedeem }: LoyaltyPanelProps) {
+  const [pendingReward, setPendingReward] = useState<RewardItem | null>(null);
   const progress = TIER_PROGRESS[tier] ?? TIER_PROGRESS["Bronze"];
-  const pct = tier === "VIP" ? 100 : Math.min(100, Math.round((points / progress.target) * 100));
+  const pct =
+    tier === "VIP"
+      ? 100
+      : Math.min(100, Math.round((points / progress.target) * 100));
   const ptsToNext = Math.max(0, progress.target - points);
 
   return (
+    <>
     <Card className="p-5">
       <div className="flex items-start justify-between">
         <div>
-          <h3 className="font-heading text-2xl text-(--ink-900)">Loyalty Vault</h3>
-          <p className="text-sm text-(--ink-600)">Redeem points for rewards below.</p>
+          <h3 className="font-heading text-2xl text-(--ink-900)">
+            Loyalty Vault
+          </h3>
+          <p className="text-sm text-(--ink-600)">
+            Redeem points for rewards below.
+          </p>
         </div>
         <Trophy className="h-5 w-5 text-(--green-700)" />
       </div>
@@ -49,7 +63,9 @@ export function LoyaltyPanel({ points, tier, onRedeem }: LoyaltyPanelProps) {
         <div className="mt-3">
           <div className="mb-1 flex justify-between text-xs text-(--ink-500)">
             <span>{tier}</span>
-            <span>{ptsToNext} pts to {progress.label}</span>
+            <span>
+              {ptsToNext} pts to {progress.label}
+            </span>
           </div>
           <div className="h-2 w-full overflow-hidden rounded-full bg-black/10">
             <div
@@ -62,7 +78,9 @@ export function LoyaltyPanel({ points, tier, onRedeem }: LoyaltyPanelProps) {
 
       {/* Reward catalog */}
       <div className="mt-4 space-y-2">
-        <p className="text-xs font-semibold uppercase tracking-wide text-(--ink-400)">Reward Catalog</p>
+        <p className="text-xs font-semibold uppercase tracking-wide text-(--ink-400)">
+          Reward Catalog
+        </p>
         {REWARD_CATALOG.map((reward) => {
           const canAfford = points >= reward.pointsCost;
           return (
@@ -73,12 +91,16 @@ export function LoyaltyPanel({ points, tier, onRedeem }: LoyaltyPanelProps) {
               <div className="flex items-center gap-2">
                 <span className="text-lg">{reward.icon}</span>
                 <div>
-                  <p className="text-sm font-semibold text-(--ink-900)">{reward.title}</p>
-                  <p className="text-xs text-(--ink-500)">{reward.description}</p>
+                  <p className="text-sm font-semibold text-(--ink-900)">
+                    {reward.title}
+                  </p>
+                  <p className="text-xs text-(--ink-500)">
+                    {reward.description}
+                  </p>
                 </div>
               </div>
               <button
-                onClick={() => onRedeem(reward)}
+                onClick={() => setPendingReward(reward)}
                 disabled={!canAfford}
                 className="shrink-0 inline-flex items-center gap-1 rounded-full bg-(--ink-900) px-3 py-1.5 text-xs font-semibold text-white transition hover:bg-black disabled:cursor-not-allowed disabled:opacity-40"
               >
@@ -90,6 +112,21 @@ export function LoyaltyPanel({ points, tier, onRedeem }: LoyaltyPanelProps) {
         })}
       </div>
     </Card>
+
+    {pendingReward && (
+      <ConfirmModal
+        open={Boolean(pendingReward)}
+        title={`Redeem "${pendingReward.title}"?`}
+        description={`This will spend ${pendingReward.pointsCost} points from your balance. This action cannot be undone.`}
+        confirmLabel={`Redeem for ${pendingReward.pointsCost} pts`}
+        cancelLabel="Keep my points"
+        onConfirm={() => {
+          onRedeem(pendingReward);
+          setPendingReward(null);
+        }}
+        onCancel={() => setPendingReward(null)}
+      />
+    )}
+    </>
   );
 }
-

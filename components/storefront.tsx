@@ -37,18 +37,25 @@ function tierFromPoints(points: number) {
 
 type Tab = "shop" | "challenges" | "rewards" | "referral";
 
-export function Storefront({ profile, leaderboard, achievementLabels }: StorefrontProps) {
+export function Storefront({
+  profile,
+  leaderboard,
+  achievementLabels,
+}: StorefrontProps) {
   const supabase = createSupabaseBrowserClient();
   const addItem = useCartStore((state) => state.addItem);
   const clearCart = useCartStore((state) => state.clearCart);
   const cartSubtotal = useCartStore((state) => state.subtotal);
 
   const [activeTab, setActiveTab] = useState<Tab>("shop");
-  const [activeCategory, setActiveCategory] = useState<(typeof categories)[number]>("All");
+  const [activeCategory, setActiveCategory] =
+    useState<(typeof categories)[number]>("All");
   const [search, setSearch] = useState("");
   const [points, setPoints] = useState(profile.points);
   const [tier, setTier] = useState(profile.tier || "Bronze");
-  const [spinsAvailable, setSpinsAvailable] = useState(profile.spins_available ?? 1);
+  const [spinsAvailable, setSpinsAvailable] = useState(
+    profile.spins_available ?? 1,
+  );
   const [lastSpinDate, setLastSpinDate] = useState(profile.last_spin_date);
   const [latestSpinPoints, setLatestSpinPoints] = useState<number | null>(null);
   const [achievements, setAchievements] = useState<string[]>(achievementLabels);
@@ -59,7 +66,8 @@ export function Storefront({ profile, leaderboard, achievementLabels }: Storefro
 
   const filteredProducts = useMemo(() => {
     return products.filter((product) => {
-      const categoryMatch = activeCategory === "All" || product.category === activeCategory;
+      const categoryMatch =
+        activeCategory === "All" || product.category === activeCategory;
       const term = search.trim().toLowerCase();
       const searchMatch =
         !term ||
@@ -70,13 +78,17 @@ export function Storefront({ profile, leaderboard, achievementLabels }: Storefro
   }, [activeCategory, search]);
 
   const flashDeal = useMemo(
-    () => products.find((item) => (item.discountPercent ?? 0) >= 12) ?? products[0],
+    () =>
+      products.find((item) => (item.discountPercent ?? 0) >= 12) ?? products[0],
     [],
   );
 
   // ─── Helpers ─────────────────────────────────────────────────────────────
 
-  const trackEvent = async (eventType: string, payload: Record<string, unknown>) => {
+  const trackEvent = async (
+    eventType: string,
+    payload: Record<string, unknown>,
+  ) => {
     await supabase.from("user_events").insert({
       user_id: profile.user_id,
       event_type: eventType,
@@ -85,11 +97,18 @@ export function Storefront({ profile, leaderboard, achievementLabels }: Storefro
   };
 
   const unlockAchievement = async (key: string, label: string) => {
-    await supabase.rpc("unlock_achievement", { p_key: key, p_user_id: profile.user_id });
+    await supabase.rpc("unlock_achievement", {
+      p_key: key,
+      p_user_id: profile.user_id,
+    });
     setAchievements((prev) => (prev.includes(label) ? prev : [...prev, label]));
   };
 
-  const awardPoints = async (amount: number, reason: string, meta?: Record<string, unknown>) => {
+  const awardPoints = async (
+    amount: number,
+    reason: string,
+    meta?: Record<string, unknown>,
+  ) => {
     const newPoints = points + amount;
     const nextTier = tierFromPoints(newPoints);
 
@@ -98,7 +117,10 @@ export function Storefront({ profile, leaderboard, achievementLabels }: Storefro
       .update({ points: newPoints, tier: nextTier })
       .eq("user_id", profile.user_id);
 
-    if (error) { toast.error(error.message); return false; }
+    if (error) {
+      toast.error(error.message);
+      return false;
+    }
 
     await supabase.from("point_ledger").insert({
       user_id: profile.user_id,
@@ -121,11 +143,13 @@ export function Storefront({ profile, leaderboard, achievementLabels }: Storefro
     return true;
   };
 
-
   // ─── Spin ─────────────────────────────────────────────────────────────────
 
   const handleSpin = async (reward: number) => {
-    if (!canSpin) { toast.error("Spin unavailable right now."); return; }
+    if (!canSpin) {
+      toast.error("Spin unavailable right now.");
+      return;
+    }
 
     const { error } = await supabase
       .from("profiles")
@@ -137,7 +161,10 @@ export function Storefront({ profile, leaderboard, achievementLabels }: Storefro
       })
       .eq("user_id", profile.user_id);
 
-    if (error) { toast.error(error.message); return; }
+    if (error) {
+      toast.error(error.message);
+      return;
+    }
 
     await supabase.from("spin_events").insert({
       user_id: profile.user_id,
@@ -163,11 +190,16 @@ export function Storefront({ profile, leaderboard, achievementLabels }: Storefro
     toast.success(`You won ${reward} points!`);
 
     // Badge checks
-    if (!achievements.includes("first spin")) await unlockAchievement("first_spin", "first spin");
-    if (reward >= 120 && !achievements.includes("big spin")) await unlockAchievement("big_spin", "big spin");
-    if (nextTier === "Silver" && !achievements.includes("silver member")) await unlockAchievement("silver_member", "silver member");
-    if (nextTier === "Gold" && !achievements.includes("gold member")) await unlockAchievement("gold_member", "gold member");
-    if (nextTier === "VIP" && !achievements.includes("vip member")) await unlockAchievement("vip_member", "vip member");
+    if (!achievements.includes("first spin"))
+      await unlockAchievement("first_spin", "first spin");
+    if (reward >= 120 && !achievements.includes("big spin"))
+      await unlockAchievement("big_spin", "big spin");
+    if (nextTier === "Silver" && !achievements.includes("silver member"))
+      await unlockAchievement("silver_member", "silver member");
+    if (nextTier === "Gold" && !achievements.includes("gold member"))
+      await unlockAchievement("gold_member", "gold member");
+    if (nextTier === "VIP" && !achievements.includes("vip member"))
+      await unlockAchievement("vip_member", "vip member");
 
     // Challenge progress
     const done = incrementChallenges(profile.user_id, "spin", 1);
@@ -177,8 +209,12 @@ export function Storefront({ profile, leaderboard, achievementLabels }: Storefro
       for (const id of done) {
         const ch = CHALLENGES.find((c) => c.id === id);
         if (ch) {
-          toast.success(`Challenge complete: ${ch.title}! +${ch.pointsReward} pts`);
-          await awardPoints(ch.pointsReward, "challenge_reward", { challenge_id: id });
+          toast.success(
+            `Challenge complete: ${ch.title}! +${ch.pointsReward} pts`,
+          );
+          await awardPoints(ch.pointsReward, "challenge_reward", {
+            challenge_id: id,
+          });
         }
       }
     }
@@ -200,7 +236,10 @@ export function Storefront({ profile, leaderboard, achievementLabels }: Storefro
       .update({ points: newPoints, tier: nextTier })
       .eq("user_id", profile.user_id);
 
-    if (error) { toast.error(error.message); return; }
+    if (error) {
+      toast.error(error.message);
+      return;
+    }
 
     await supabase.from("point_ledger").insert({
       user_id: profile.user_id,
@@ -208,7 +247,10 @@ export function Storefront({ profile, leaderboard, achievementLabels }: Storefro
       reason: "points_redemption",
       metadata: { reward_id: reward.id, value: reward.value },
     });
-    await trackEvent("points_redeemed", { reward_id: reward.id, points_used: reward.pointsCost });
+    await trackEvent("points_redeemed", {
+      reward_id: reward.id,
+      points_used: reward.pointsCost,
+    });
 
     setPoints(newPoints);
     setTier(nextTier);
@@ -234,8 +276,12 @@ export function Storefront({ profile, leaderboard, achievementLabels }: Storefro
       for (const id of done) {
         const ch = CHALLENGES.find((c) => c.id === id);
         if (ch) {
-          toast.success(`Challenge complete: ${ch.title}! +${ch.pointsReward} pts`);
-          await awardPoints(ch.pointsReward, "challenge_reward", { challenge_id: id });
+          toast.success(
+            `Challenge complete: ${ch.title}! +${ch.pointsReward} pts`,
+          );
+          await awardPoints(ch.pointsReward, "challenge_reward", {
+            challenge_id: id,
+          });
         }
       }
     }
@@ -249,10 +295,15 @@ export function Storefront({ profile, leaderboard, achievementLabels }: Storefro
     const earned = Math.floor(total);
     clearCart();
 
-    await trackEvent("checkout_completed", { timestamp: new Date().toISOString(), subtotal: total });
+    await trackEvent("checkout_completed", {
+      timestamp: new Date().toISOString(),
+      subtotal: total,
+    });
 
     if (earned > 0) {
-      const ok = await awardPoints(earned, "purchase_reward", { subtotal: total });
+      const ok = await awardPoints(earned, "purchase_reward", {
+        subtotal: total,
+      });
       if (ok) toast.success(`Checkout complete! +${earned} pts earned.`);
     } else {
       toast.success("Checkout complete. Thanks for shopping Migmart.");
@@ -278,8 +329,12 @@ export function Storefront({ profile, leaderboard, achievementLabels }: Storefro
       for (const id of allDone) {
         const ch = CHALLENGES.find((c) => c.id === id);
         if (ch) {
-          toast.success(`Challenge complete: ${ch.title}! +${ch.pointsReward} pts`);
-          await awardPoints(ch.pointsReward, "challenge_reward", { challenge_id: id });
+          toast.success(
+            `Challenge complete: ${ch.title}! +${ch.pointsReward} pts`,
+          );
+          await awardPoints(ch.pointsReward, "challenge_reward", {
+            challenge_id: id,
+          });
         }
       }
     }
@@ -308,7 +363,9 @@ export function Storefront({ profile, leaderboard, achievementLabels }: Storefro
       for (const id of done) {
         const ch = CHALLENGES.find((c) => c.id === id);
         if (ch) {
-          await awardPoints(ch.pointsReward, "challenge_reward", { challenge_id: id });
+          await awardPoints(ch.pointsReward, "challenge_reward", {
+            challenge_id: id,
+          });
         }
       }
     }
@@ -316,7 +373,9 @@ export function Storefront({ profile, leaderboard, achievementLabels }: Storefro
     // Challenge master badge
     const { loadProgress, CHALLENGES } = await import("@/lib/challenges");
     const prog = loadProgress(profile.user_id);
-    const completedCount = CHALLENGES.filter((c) => prog[c.id]?.completed).length;
+    const completedCount = CHALLENGES.filter(
+      (c) => prog[c.id]?.completed,
+    ).length;
     if (completedCount >= 3 && !achievements.includes("challenge master")) {
       await unlockAchievement("challenge_master", "challenge master");
     }
@@ -351,10 +410,12 @@ export function Storefront({ profile, leaderboard, achievementLabels }: Storefro
           <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
             <div>
               <h1 className="max-w-2xl font-heading text-4xl leading-tight text-(--ink-900) md:text-5xl">
-                Grab up to {flashDeal.discountPercent ?? 10}% off on fresh essentials this week.
+                Grab up to {flashDeal.discountPercent ?? 10}% off on fresh
+                essentials this week.
               </h1>
               <p className="mt-2 text-sm text-(--ink-600)">
-                Highlighted item: {flashDeal.name}. Reward points stack with active discounts.
+                Highlighted item: {flashDeal.name}. Reward points stack with
+                active discounts.
               </p>
             </div>
             <Button onClick={() => setActiveTab("shop")}>
@@ -433,7 +494,10 @@ export function Storefront({ profile, leaderboard, achievementLabels }: Storefro
                 spinsAvailable={spinsAvailable}
                 onSpin={(reward) => void handleSpin(reward)}
               />
-              <Leaderboard users={leaderboard} currentUserId={profile.user_id} />
+              <Leaderboard
+                users={leaderboard}
+                currentUserId={profile.user_id}
+              />
             </div>
           </section>
         )}

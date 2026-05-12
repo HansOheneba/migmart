@@ -18,9 +18,5 @@ export default async function AuthPage() {
     redirect(profile?.onboarding_completed ? "/" : "/onboarding");
   }
 
-  return (
-    <div className="min-h-screen bg-(--color-camel-100)">
-      <AuthForm />
-    </div>
-  );
+  return <AuthForm />;
 }

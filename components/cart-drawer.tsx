@@ -1,8 +1,10 @@
 "use client";
 
+import { useState } from "react";
 import { X, Plus, Minus } from "lucide-react";
 import { useCartStore } from "@/lib/store";
 import { Button } from "@/components/ui/button";
+import { ConfirmModal } from "@/components/ui/confirm-modal";
 import { formatCurrency } from "@/lib/utils";
 
 type CartDrawerProps = {
@@ -18,6 +20,7 @@ export function CartDrawer({ onCheckout }: CartDrawerProps) {
     removeItem,
     subtotal,
   } = useCartStore();
+  const [showCheckoutModal, setShowCheckoutModal] = useState(false);
 
   const total = subtotal();
 
@@ -86,11 +89,25 @@ export function CartDrawer({ onCheckout }: CartDrawerProps) {
             <span className="text-(--ink-500)">Subtotal</span>
             <span className="font-semibold text-(--ink-900)">{formatCurrency(total)}</span>
           </div>
-          <Button className="w-full" onClick={onCheckout} disabled={items.length === 0}>
+          <Button className="w-full" onClick={() => setShowCheckoutModal(true)} disabled={items.length === 0}>
             Proceed to Checkout
           </Button>
         </div>
       </aside>
+
+      <ConfirmModal
+        open={showCheckoutModal}
+        title="Confirm your order?"
+        description={`Your total is ${formatCurrency(total)}. You'll earn loyalty points based on your spend.`}
+        confirmLabel="Place order"
+        cancelLabel="Review cart"
+        onConfirm={() => {
+          setShowCheckoutModal(false);
+          closeCart();
+          onCheckout();
+        }}
+        onCancel={() => setShowCheckoutModal(false)}
+      />
     </>
   );
 }

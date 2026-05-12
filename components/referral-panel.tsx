@@ -19,7 +19,11 @@ type ReferralPanelProps = {
   onReferralSuccess: () => void;
 };
 
-export function ReferralPanel({ userId, displayName, onReferralSuccess }: ReferralPanelProps) {
+export function ReferralPanel({
+  userId,
+  displayName,
+  onReferralSuccess,
+}: ReferralPanelProps) {
   const code = generateReferralCode(userId, displayName);
   const [referrals, setReferrals] = useState<ReferralEntry[]>([]);
   const [friendName, setFriendName] = useState("");
@@ -56,7 +60,9 @@ export function ReferralPanel({ userId, displayName, onReferralSuccess }: Referr
     <Card className="p-5">
       <div className="mb-4 flex items-center justify-between">
         <div>
-          <h3 className="font-heading text-2xl text-(--ink-900)">Refer a Friend</h3>
+          <h3 className="font-heading text-2xl text-(--ink-900)">
+            Refer a Friend
+          </h3>
           <p className="text-sm text-(--ink-600)">
             Both you and your friend get +120 pts when they join.
           </p>
@@ -88,7 +94,9 @@ export function ReferralPanel({ userId, displayName, onReferralSuccess }: Referr
           placeholder="Friend's name (demo)"
           value={friendName}
           onChange={(e) => setFriendName(e.target.value)}
-          onKeyDown={(e) => { if (e.key === "Enter") handleSimulate(); }}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") handleSimulate();
+          }}
         />
         <Button onClick={handleSimulate} className="shrink-0">
           Invite
@@ -102,11 +110,17 @@ export function ReferralPanel({ userId, displayName, onReferralSuccess }: Referr
       {referrals.length > 0 && (
         <div className="mt-4 space-y-1">
           <p className="text-xs font-semibold uppercase tracking-wide text-(--ink-400)">
-            {referrals.length} Friend{referrals.length !== 1 ? "s" : ""} Referred
+            {referrals.length} Friend{referrals.length !== 1 ? "s" : ""}{" "}
+            Referred
           </p>
           {referrals.map((r, i) => (
-            <div key={i} className="flex items-center justify-between rounded-xl bg-(--lime-300)/20 px-3 py-2">
-              <p className="text-sm font-semibold text-(--green-900)">{r.usedBy}</p>
+            <div
+              key={i}
+              className="flex items-center justify-between rounded-xl bg-(--lime-300)/20 px-3 py-2"
+            >
+              <p className="text-sm font-semibold text-(--green-900)">
+                {r.usedBy}
+              </p>
               <p className="text-xs text-(--ink-400)">
                 {new Date(r.usedAt).toLocaleDateString()}
               </p>

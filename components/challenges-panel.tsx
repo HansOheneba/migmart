@@ -16,7 +16,10 @@ type ChallengesPanelProps = {
   progressVersion: number; // bump to force re-read from localStorage
 };
 
-export function ChallengesPanel({ userId, progressVersion }: ChallengesPanelProps) {
+export function ChallengesPanel({
+  userId,
+  progressVersion,
+}: ChallengesPanelProps) {
   const [allProgress, setAllProgress] = useState<AllProgress>({});
 
   useEffect(() => {
@@ -42,8 +45,15 @@ export function ChallengesPanel({ userId, progressVersion }: ChallengesPanelProp
 
       <div className="space-y-2">
         {inProgress.map((challenge) => {
-          const prog = allProgress[challenge.id] ?? { progress: 0, completed: false, completedAt: null };
-          const pct = Math.min(100, Math.round((prog.progress / challenge.target) * 100));
+          const prog = allProgress[challenge.id] ?? {
+            progress: 0,
+            completed: false,
+            completedAt: null,
+          };
+          const pct = Math.min(
+            100,
+            Math.round((prog.progress / challenge.target) * 100),
+          );
           const days = daysLeft(challenge);
 
           return (
@@ -52,12 +62,18 @@ export function ChallengesPanel({ userId, progressVersion }: ChallengesPanelProp
                 <div className="flex items-center gap-2">
                   <span className="text-xl">{challenge.icon}</span>
                   <div>
-                    <p className="text-sm font-semibold text-(--ink-900)">{challenge.title}</p>
-                    <p className="text-xs text-(--ink-500)">{challenge.description}</p>
+                    <p className="text-sm font-semibold text-(--ink-900)">
+                      {challenge.title}
+                    </p>
+                    <p className="text-xs text-(--ink-500)">
+                      {challenge.description}
+                    </p>
                   </div>
                 </div>
                 <div className="shrink-0 text-right">
-                  <p className="text-xs font-bold text-(--green-700)">+{challenge.pointsReward} pts</p>
+                  <p className="text-xs font-bold text-(--green-700)">
+                    +{challenge.pointsReward} pts
+                  </p>
                   {days !== null ? (
                     <p className="text-xs text-(--ink-400)">{days}d left</p>
                   ) : (
@@ -67,7 +83,9 @@ export function ChallengesPanel({ userId, progressVersion }: ChallengesPanelProp
               </div>
               <div className="mt-2">
                 <div className="mb-1 flex justify-between text-xs text-(--ink-500)">
-                  <span>{prog.progress} / {challenge.target}</span>
+                  <span>
+                    {prog.progress} / {challenge.target}
+                  </span>
                   <span>{pct}%</span>
                 </div>
                 <div className="h-1.5 w-full overflow-hidden rounded-full bg-black/10">
@@ -93,10 +111,16 @@ export function ChallengesPanel({ userId, progressVersion }: ChallengesPanelProp
               >
                 <span className="text-lg">{challenge.icon}</span>
                 <div className="flex-1">
-                  <p className="text-sm font-semibold text-(--green-900)">{challenge.title}</p>
-                  <p className="text-xs text-(--ink-500)">{challenge.description}</p>
+                  <p className="text-sm font-semibold text-(--green-900)">
+                    {challenge.title}
+                  </p>
+                  <p className="text-xs text-(--ink-500)">
+                    {challenge.description}
+                  </p>
                 </div>
-                <span className="text-sm text-(--green-700)">✓ +{challenge.pointsReward} pts</span>
+                <span className="text-sm text-(--green-700)">
+                  ✓ +{challenge.pointsReward} pts
+                </span>
               </div>
             ))}
           </>

@@ -16,13 +16,13 @@ import { Card } from "@/components/ui/card";
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 const SEGMENTS = [
-  { label: "25 pts",  points: 25,  color: "#f97316" }, // orange
-  { label: "40 pts",  points: 40,  color: "#8b5cf6" }, // violet
-  { label: "75 pts",  points: 75,  color: "#06b6d4" }, // cyan
+  { label: "25 pts", points: 25, color: "#f97316" }, // orange
+  { label: "40 pts", points: 40, color: "#8b5cf6" }, // violet
+  { label: "75 pts", points: 75, color: "#06b6d4" }, // cyan
   { label: "120 pts", points: 120, color: "#ec4899" }, // pink
   { label: "160 pts", points: 160, color: "#eab308" }, // yellow
-  { label: "50 pts",  points: 50,  color: "#22c55e" }, // green
-  { label: "30 pts",  points: 30,  color: "#ef4444" }, // red
+  { label: "50 pts", points: 50, color: "#22c55e" }, // green
+  { label: "30 pts", points: 30, color: "#ef4444" }, // red
   { label: "100 pts", points: 100, color: "#3b82f6" }, // blue
 ];
 
@@ -143,7 +143,9 @@ export function SpinWheel({
 
       <div className="flex items-start justify-between">
         <div>
-          <h3 className="font-heading text-2xl text-(--ink-900)">Spin To Win</h3>
+          <h3 className="font-heading text-2xl text-(--ink-900)">
+            Spin To Win
+          </h3>
           <p className="mt-1 text-sm text-(--ink-600)">
             Daily spin rewards. Limited by available spins.
           </p>
@@ -153,7 +155,12 @@ export function SpinWheel({
 
       <div className="mt-4 flex flex-col items-center gap-0">
         {/* Fixed pointer arrow */}
-        <svg width="20" height="24" viewBox="0 0 20 24" className="z-10 drop-shadow-md">
+        <svg
+          width="20"
+          height="24"
+          viewBox="0 0 20 24"
+          className="z-10 drop-shadow-md"
+        >
           <polygon points="10,22 0,2 20,2" fill="#1e293b" />
         </svg>
 
@@ -180,7 +187,9 @@ export function SpinWheel({
       </div>
 
       <div className="mt-4 flex items-center justify-between gap-3">
-        <p className="text-sm text-(--ink-600)">Spins available: {spinsAvailable}</p>
+        <p className="text-sm text-(--ink-600)">
+          Spins available: {spinsAvailable}
+        </p>
         <Button onClick={handleSpinClick} disabled={!canSpin || spinning}>
           {spinning ? "Spinning…" : "Spin Now"}
         </Button>

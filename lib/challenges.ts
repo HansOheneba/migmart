@@ -2,7 +2,12 @@
 
 import { todayDateString } from "@/lib/utils";
 
-export type ChallengeKind = "spend" | "spin" | "redeem" | "checkout" | "referral";
+export type ChallengeKind =
+  | "spend"
+  | "spin"
+  | "redeem"
+  | "checkout"
+  | "referral";
 
 export type Challenge = {
   id: string;
@@ -151,7 +156,11 @@ export function incrementChallenges(
   });
 
   for (const challenge of active) {
-    const prev = all[challenge.id] ?? { progress: 0, completed: false, completedAt: null };
+    const prev = all[challenge.id] ?? {
+      progress: 0,
+      completed: false,
+      completedAt: null,
+    };
     if (prev.completed) continue;
 
     const newProgress = Math.min(prev.progress + amount, challenge.target);

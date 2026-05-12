@@ -29,7 +29,9 @@ export function AchievementsPanel({ achievements }: AchievementsPanelProps) {
           return (
             <div
               key={badge.key}
-              title={unlocked ? badge.description : `Locked: ${badge.requirement}`}
+              title={
+                unlocked ? badge.description : `Locked: ${badge.requirement}`
+              }
               className={`flex items-center gap-2 rounded-xl p-2 transition ${
                 unlocked
                   ? "bg-(--lime-300)/25 ring-1 ring-(--green-700)/30"
@@ -38,7 +40,9 @@ export function AchievementsPanel({ achievements }: AchievementsPanelProps) {
             >
               <span className="text-xl">{badge.icon}</span>
               <div className="min-w-0">
-                <p className={`truncate text-xs font-semibold ${unlocked ? "text-(--green-900)" : "text-(--ink-600)"}`}>
+                <p
+                  className={`truncate text-xs font-semibold ${unlocked ? "text-(--green-900)" : "text-(--ink-600)"}`}
+                >
                   {badge.title}
                 </p>
                 <p className="truncate text-xs text-(--ink-400)">
@@ -52,4 +56,3 @@ export function AchievementsPanel({ achievements }: AchievementsPanelProps) {
     </Card>
   );
 }
-
