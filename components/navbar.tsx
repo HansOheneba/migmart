@@ -28,48 +28,51 @@ export function Navbar({ displayName, isAdmin }: NavbarProps) {
 
   return (
     <>
-    <header className="sticky top-0 z-40 border-b border-black/10 bg-white/90 backdrop-blur">
-      <div className="mx-auto flex h-16 w-full max-w-7xl items-center justify-between px-4 sm:px-6">
-        <div className="flex items-center gap-3">
-          <div className="rounded-lg bg-(--green-700) px-2 py-1 font-heading text-lg text-white">
-            Migmart
+      <header className="sticky top-0 z-40 border-b border-black/10 bg-white/90 backdrop-blur">
+        <div className="mx-auto flex h-16 w-full max-w-7xl items-center justify-between px-4 sm:px-6">
+          <div className="flex items-center gap-3">
+            <div className="rounded-lg bg-(--green-700) px-2 py-1 font-heading text-lg text-white">
+              Migmart
+            </div>
+            <p className="hidden text-sm text-(--ink-500) sm:block">
+              Welcome back,{" "}
+              <span className="font-semibold text-(--ink-900)">
+                {displayName}
+              </span>
+            </p>
           </div>
-          <p className="hidden text-sm text-(--ink-500) sm:block">
-            Welcome back, <span className="font-semibold text-(--ink-900)">{displayName}</span>
-          </p>
-        </div>
 
-        <div className="flex items-center gap-2">
-          {isAdmin ? (
-            <Button variant="secondary" onClick={() => router.push("/admin")}>
-              <ShieldCheck className="mr-2 h-4 w-4" />
-              Admin
+          <div className="flex items-center gap-2">
+            {isAdmin ? (
+              <Button variant="secondary" onClick={() => router.push("/admin")}>
+                <ShieldCheck className="mr-2 h-4 w-4" />
+                Admin
+              </Button>
+            ) : null}
+
+            <Button variant="secondary" onClick={toggleCart}>
+              <ShoppingCart className="mr-2 h-4 w-4" />
+              Cart ({cartCount})
             </Button>
-          ) : null}
 
-          <Button variant="secondary" onClick={toggleCart}>
-            <ShoppingCart className="mr-2 h-4 w-4" />
-            Cart ({cartCount})
-          </Button>
-
-          <Button variant="ghost" onClick={() => setShowLogoutModal(true)}>
-            <LogOut className="mr-2 h-4 w-4" />
-            Sign out
-          </Button>
+            <Button variant="ghost" onClick={() => setShowLogoutModal(true)}>
+              <LogOut className="mr-2 h-4 w-4" />
+              Sign out
+            </Button>
+          </div>
         </div>
-      </div>
-    </header>
+      </header>
 
-    <ConfirmModal
-      open={showLogoutModal}
-      title="Sign out?"
-      description="You'll need to sign back in to access your account and rewards."
-      confirmLabel="Sign out"
-      cancelLabel="Stay logged in"
-      destructive
-      onConfirm={handleSignOut}
-      onCancel={() => setShowLogoutModal(false)}
-    />
+      <ConfirmModal
+        open={showLogoutModal}
+        title="Sign out?"
+        description="You'll need to sign back in to access your account and rewards."
+        confirmLabel="Sign out"
+        cancelLabel="Stay logged in"
+        destructive
+        onConfirm={handleSignOut}
+        onCancel={() => setShowLogoutModal(false)}
+      />
     </>
   );
 }

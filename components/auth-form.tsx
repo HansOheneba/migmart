@@ -49,7 +49,10 @@ export function AuthForm() {
         if (error) throw error;
         toast.success("Account created. Complete onboarding next.");
       } else {
-        const { error } = await supabase.auth.signInWithPassword({ email, password });
+        const { error } = await supabase.auth.signInWithPassword({
+          email,
+          password,
+        });
         if (error) throw error;
       }
 
@@ -78,7 +81,8 @@ export function AuthForm() {
 
       router.replace(profile?.onboarding_completed ? "/" : "/onboarding");
     } catch (error) {
-      const message = error instanceof Error ? error.message : "Authentication failed.";
+      const message =
+        error instanceof Error ? error.message : "Authentication failed.";
       toast.error(message);
     } finally {
       setLoading(false);
@@ -99,7 +103,9 @@ export function AuthForm() {
           <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-white/15 backdrop-blur">
             <ShoppingBasket className="h-5 w-5 text-white" />
           </div>
-          <span className="font-heading text-xl font-bold text-white">MigMart</span>
+          <span className="font-heading text-xl font-bold text-white">
+            MigMart
+          </span>
         </div>
 
         {/* Headline */}
@@ -122,7 +128,8 @@ export function AuthForm() {
               ))}
             </div>
             <div className="text-sm text-white/80">
-              <span className="font-semibold text-white">9.5k</span> members earning rewards
+              <span className="font-semibold text-white">9.5k</span> members
+              earning rewards
             </div>
           </div>
         </div>
@@ -135,7 +142,9 @@ export function AuthForm() {
           <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-green-700">
             <ShoppingBasket className="h-5 w-5 text-white" />
           </div>
-          <span className="font-heading text-xl font-bold text-green-900">MigMart</span>
+          <span className="font-heading text-xl font-bold text-green-900">
+            MigMart
+          </span>
         </div>
 
         <div className="w-full max-w-md">
@@ -143,15 +152,22 @@ export function AuthForm() {
             {mode === "signin" ? "Sign In" : "Sign Up"}
           </h2>
           <p className="mt-2 text-sm text-gray-500">
-            {mode === "signin"
-              ? "Welcome back! Enter your credentials to continue."
-              : <>Get started with an account on <span className="font-semibold text-green-700">MigMart</span></>}
+            {mode === "signin" ? (
+              "Welcome back! Enter your credentials to continue."
+            ) : (
+              <>
+                Get started with an account on{" "}
+                <span className="font-semibold text-green-700">MigMart</span>
+              </>
+            )}
           </p>
 
           <form className="mt-8 space-y-4" onSubmit={handleSubmit}>
             {mode === "signup" && (
               <div>
-                <label className="mb-1.5 block text-sm font-medium text-gray-700">Full Name</label>
+                <label className="mb-1.5 block text-sm font-medium text-gray-700">
+                  Full Name
+                </label>
                 <input
                   value={displayName}
                   onChange={(e) => setDisplayName(e.target.value)}
@@ -163,7 +179,9 @@ export function AuthForm() {
             )}
 
             <div>
-              <label className="mb-1.5 block text-sm font-medium text-gray-700">Email address</label>
+              <label className="mb-1.5 block text-sm font-medium text-gray-700">
+                Email address
+              </label>
               <input
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
@@ -176,9 +194,14 @@ export function AuthForm() {
 
             <div>
               <div className="mb-1.5 flex items-center justify-between">
-                <label className="text-sm font-medium text-gray-700">Password</label>
+                <label className="text-sm font-medium text-gray-700">
+                  Password
+                </label>
                 {mode === "signin" && (
-                  <button type="button" className="text-xs font-medium text-green-700 hover:underline">
+                  <button
+                    type="button"
+                    className="text-xs font-medium text-green-700 hover:underline"
+                  >
                     Forgot password?
                   </button>
                 )}
@@ -196,7 +219,9 @@ export function AuthForm() {
 
             {mode === "signup" && (
               <div>
-                <label className="mb-1.5 block text-sm font-medium text-gray-700">Confirm Password</label>
+                <label className="mb-1.5 block text-sm font-medium text-gray-700">
+                  Confirm Password
+                </label>
                 <input
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
@@ -206,7 +231,9 @@ export function AuthForm() {
                   className="h-12 w-full rounded-xl border border-gray-200 bg-gray-50 px-4 text-sm text-gray-900 outline-none transition focus:border-green-600 focus:bg-white focus:ring-2 focus:ring-green-600/20"
                   required
                 />
-                <p className="mt-1.5 text-xs text-gray-400">At least 8 characters</p>
+                <p className="mt-1.5 text-xs text-gray-400">
+                  At least 8 characters
+                </p>
               </div>
             )}
 
@@ -219,7 +246,10 @@ export function AuthForm() {
               />
               <span>
                 By registering you agree to our{" "}
-                <button type="button" className="font-medium text-green-700 hover:underline">
+                <button
+                  type="button"
+                  className="font-medium text-green-700 hover:underline"
+                >
                   Terms &amp; Conditions
                 </button>
               </span>
@@ -230,12 +260,18 @@ export function AuthForm() {
               disabled={loading}
               className="h-12 w-full rounded-xl bg-green-700 text-sm font-semibold text-white transition hover:bg-green-800 disabled:opacity-50"
             >
-              {loading ? "Please wait…" : mode === "signup" ? "Proceed" : "Sign In"}
+              {loading
+                ? "Please wait…"
+                : mode === "signup"
+                  ? "Proceed"
+                  : "Sign In"}
             </button>
           </form>
 
           <p className="mt-6 text-center text-sm text-gray-500">
-            {mode === "signin" ? "Don't have an account?" : "Already have an account?"}{" "}
+            {mode === "signin"
+              ? "Don't have an account?"
+              : "Already have an account?"}{" "}
             <button
               type="button"
               onClick={() => setMode(mode === "signin" ? "signup" : "signin")}

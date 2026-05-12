@@ -12,14 +12,8 @@ type CartDrawerProps = {
 };
 
 export function CartDrawer({ onCheckout }: CartDrawerProps) {
-  const {
-    isCartOpen,
-    closeCart,
-    items,
-    setQuantity,
-    removeItem,
-    subtotal,
-  } = useCartStore();
+  const { isCartOpen, closeCart, items, setQuantity, removeItem, subtotal } =
+    useCartStore();
   const [showCheckoutModal, setShowCheckoutModal] = useState(false);
 
   const total = subtotal();
@@ -46,28 +40,44 @@ export function CartDrawer({ onCheckout }: CartDrawerProps) {
           </button>
         </div>
 
-        <div className="space-y-3 overflow-y-auto p-4" style={{ height: "calc(100% - 190px)" }}>
+        <div
+          className="space-y-3 overflow-y-auto p-4"
+          style={{ height: "calc(100% - 190px)" }}
+        >
           {items.length === 0 ? (
             <p className="rounded-xl bg-(--sand-100) p-4 text-sm text-(--ink-600)">
               Your cart is empty. Add fresh picks from the catalog.
             </p>
           ) : (
             items.map((item) => (
-              <div key={item.product.id} className="rounded-xl border border-black/10 p-3">
-                <p className="font-semibold text-(--ink-900)">{item.product.name}</p>
-                <p className="text-xs text-(--ink-500)">{formatCurrency(item.product.price)} each</p>
+              <div
+                key={item.product.id}
+                className="rounded-xl border border-black/10 p-3"
+              >
+                <p className="font-semibold text-(--ink-900)">
+                  {item.product.name}
+                </p>
+                <p className="text-xs text-(--ink-500)">
+                  {formatCurrency(item.product.price)} each
+                </p>
                 <div className="mt-2 flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <button
                       className="rounded-full border border-black/10 p-1"
-                      onClick={() => setQuantity(item.product.id, item.quantity - 1)}
+                      onClick={() =>
+                        setQuantity(item.product.id, item.quantity - 1)
+                      }
                     >
                       <Minus className="h-4 w-4" />
                     </button>
-                    <span className="w-6 text-center text-sm font-semibold">{item.quantity}</span>
+                    <span className="w-6 text-center text-sm font-semibold">
+                      {item.quantity}
+                    </span>
                     <button
                       className="rounded-full border border-black/10 p-1"
-                      onClick={() => setQuantity(item.product.id, item.quantity + 1)}
+                      onClick={() =>
+                        setQuantity(item.product.id, item.quantity + 1)
+                      }
                     >
                       <Plus className="h-4 w-4" />
                     </button>
@@ -87,9 +97,15 @@ export function CartDrawer({ onCheckout }: CartDrawerProps) {
         <div className="border-t border-black/10 p-4">
           <div className="mb-3 flex items-center justify-between text-sm">
             <span className="text-(--ink-500)">Subtotal</span>
-            <span className="font-semibold text-(--ink-900)">{formatCurrency(total)}</span>
+            <span className="font-semibold text-(--ink-900)">
+              {formatCurrency(total)}
+            </span>
           </div>
-          <Button className="w-full" onClick={() => setShowCheckoutModal(true)} disabled={items.length === 0}>
+          <Button
+            className="w-full"
+            onClick={() => setShowCheckoutModal(true)}
+            disabled={items.length === 0}
+          >
             Proceed to Checkout
           </Button>
         </div>
