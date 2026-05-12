@@ -1,0 +1,215 @@
+export type ProductCategory =
+  | "Fruits & Veggies"
+  | "Dairy & Eggs"
+  | "Beverages"
+  | "Snacks"
+  | "Bakery"
+  | "Household";
+
+export type Product = {
+  id: string;
+  name: string;
+  category: ProductCategory;
+  price: number;
+  discountPercent?: number;
+  image: string;
+  description: string;
+  unit: string;
+  inStock: boolean;
+  rating: number;
+};
+
+export const categories = [
+  "All",
+  "Fruits & Veggies",
+  "Dairy & Eggs",
+  "Beverages",
+  "Snacks",
+  "Bakery",
+  "Household",
+] as const;
+
+export const products: Product[] = [
+  {
+    id: "fresh-avocados",
+    name: "Fresh Avocados",
+    category: "Fruits & Veggies",
+    price: 6.49,
+    discountPercent: 10,
+    image: "https://images.unsplash.com/photo-1601039641847-7857b994d704?auto=format&fit=crop&w=900&q=80",
+    description: "Creamy Hass avocados, perfect for toast and guacamole.",
+    unit: "Pack of 3",
+    inStock: true,
+    rating: 4.7,
+  },
+  {
+    id: "organic-bananas",
+    name: "Organic Bananas",
+    category: "Fruits & Veggies",
+    price: 3.29,
+    image: "https://images.unsplash.com/photo-1528825871115-3581a5387919?auto=format&fit=crop&w=900&q=80",
+    description: "Naturally sweet bananas with a smooth texture.",
+    unit: "Bunch",
+    inStock: true,
+    rating: 4.6,
+  },
+  {
+    id: "fresh-strawberries",
+    name: "Fresh Strawberries",
+    category: "Fruits & Veggies",
+    price: 5.79,
+    discountPercent: 12,
+    image: "https://images.unsplash.com/photo-1543158181-e6f9f6712055?auto=format&fit=crop&w=900&q=80",
+    description: "Juicy strawberries packed with flavor.",
+    unit: "500g",
+    inStock: true,
+    rating: 4.8,
+  },
+  {
+    id: "baby-spinach",
+    name: "Baby Spinach",
+    category: "Fruits & Veggies",
+    price: 4.19,
+    image: "https://images.unsplash.com/photo-1576045057995-568f588f82fb?auto=format&fit=crop&w=900&q=80",
+    description: "Tender spinach leaves for salads and smoothies.",
+    unit: "200g",
+    inStock: true,
+    rating: 4.5,
+  },
+  {
+    id: "free-range-eggs",
+    name: "Free-Range Eggs",
+    category: "Dairy & Eggs",
+    price: 6.99,
+    image: "https://images.unsplash.com/photo-1598965675045-45c5e72c7d05?auto=format&fit=crop&w=900&q=80",
+    description: "Farm-fresh eggs from free-range hens.",
+    unit: "Dozen",
+    inStock: true,
+    rating: 4.9,
+  },
+  {
+    id: "greek-yogurt",
+    name: "Greek Yogurt",
+    category: "Dairy & Eggs",
+    price: 4.89,
+    discountPercent: 8,
+    image: "https://images.unsplash.com/photo-1488477181946-6428a0291777?auto=format&fit=crop&w=900&q=80",
+    description: "Thick, high-protein yogurt with a creamy finish.",
+    unit: "500g",
+    inStock: true,
+    rating: 4.6,
+  },
+  {
+    id: "cheddar-cheese",
+    name: "Cheddar Cheese",
+    category: "Dairy & Eggs",
+    price: 7.49,
+    image: "https://images.unsplash.com/photo-1618164436241-4473940d1f5c?auto=format&fit=crop&w=900&q=80",
+    description: "Sharp aged cheddar with rich flavor.",
+    unit: "300g",
+    inStock: false,
+    rating: 4.7,
+  },
+  {
+    id: "orange-juice",
+    name: "Orange Juice",
+    category: "Beverages",
+    price: 4.29,
+    image: "https://images.unsplash.com/photo-1613478223719-2ab802602423?auto=format&fit=crop&w=900&q=80",
+    description: "Cold-pressed orange juice, no added sugar.",
+    unit: "1L",
+    inStock: true,
+    rating: 4.4,
+  },
+  {
+    id: "sparkling-water",
+    name: "Sparkling Water",
+    category: "Beverages",
+    price: 2.99,
+    image: "https://images.unsplash.com/photo-1544145945-f90425340c7e?auto=format&fit=crop&w=900&q=80",
+    description: "Crisp bubbles with a clean mineral taste.",
+    unit: "750ml",
+    inStock: true,
+    rating: 4.3,
+  },
+  {
+    id: "green-tea",
+    name: "Green Tea",
+    category: "Beverages",
+    price: 3.79,
+    discountPercent: 15,
+    image: "https://images.unsplash.com/photo-1544787219-7f47ccb76574?auto=format&fit=crop&w=900&q=80",
+    description: "Premium sencha tea bags with floral aroma.",
+    unit: "20 bags",
+    inStock: true,
+    rating: 4.5,
+  },
+  {
+    id: "trail-mix",
+    name: "Trail Mix",
+    category: "Snacks",
+    price: 6.29,
+    image: "https://images.unsplash.com/photo-1515003197210-e0cd71810b5f?auto=format&fit=crop&w=900&q=80",
+    description: "Roasted nuts, dried fruit, and dark cocoa chips.",
+    unit: "400g",
+    inStock: true,
+    rating: 4.6,
+  },
+  {
+    id: "dark-chocolate",
+    name: "Dark Chocolate",
+    category: "Snacks",
+    price: 3.49,
+    discountPercent: 5,
+    image: "https://images.unsplash.com/photo-1582176604856-e824b4736522?auto=format&fit=crop&w=900&q=80",
+    description: "72% cacao bars with a smooth melt.",
+    unit: "100g",
+    inStock: true,
+    rating: 4.8,
+  },
+  {
+    id: "sourdough-bread",
+    name: "Sourdough Bread",
+    category: "Bakery",
+    price: 5.99,
+    image: "https://images.unsplash.com/photo-1608198093002-ad4e005484ec?auto=format&fit=crop&w=900&q=80",
+    description: "Stone-baked loaf with a crisp crust.",
+    unit: "1 loaf",
+    inStock: true,
+    rating: 4.7,
+  },
+  {
+    id: "croissants",
+    name: "Croissants",
+    category: "Bakery",
+    price: 4.99,
+    image: "https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&w=900&q=80",
+    description: "Buttery flaky croissants, baked fresh daily.",
+    unit: "Pack of 4",
+    inStock: true,
+    rating: 4.6,
+  },
+  {
+    id: "dish-soap",
+    name: "Dish Soap",
+    category: "Household",
+    price: 3.19,
+    image: "https://images.unsplash.com/photo-1583947581924-860bda6a26df?auto=format&fit=crop&w=900&q=80",
+    description: "Grease-cutting formula with citrus scent.",
+    unit: "500ml",
+    inStock: true,
+    rating: 4.4,
+  },
+  {
+    id: "paper-towels",
+    name: "Paper Towels",
+    category: "Household",
+    price: 8.49,
+    discountPercent: 18,
+    image: "https://images.unsplash.com/photo-1630964046403-8b745f8919f8?auto=format&fit=crop&w=900&q=80",
+    description: "Strong absorbent rolls for kitchen and home.",
+    unit: "6 rolls",
+    inStock: true,
+    rating: 4.5,
+  },
+];

@@ -1,26 +1,95 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --color-black-50: #eae8fd;
+  --color-black-100: #d5d1fa;
+  --color-black-200: #aca2f6;
+  --color-black-300: #8274f1;
+  --color-black-400: #5945ed;
+  --color-black-500: #2f17e8;
+  --color-black-600: #2612ba;
+  --color-black-700: #1c0e8b;
+  --color-black-800: #13095d;
+  --color-black-900: #09052e;
+  --color-black-950: #070320;
+
+  --color-tomato-jam-50: #fbeaeb;
+  --color-tomato-jam-100: #f7d4d7;
+  --color-tomato-jam-200: #eeaab0;
+  --color-tomato-jam-300: #e67f88;
+  --color-tomato-jam-400: #dd5560;
+  --color-tomato-jam-500: #d52a38;
+  --color-tomato-jam-600: #aa222d;
+  --color-tomato-jam-700: #801922;
+  --color-tomato-jam-800: #551117;
+  --color-tomato-jam-900: #2b080b;
+  --color-tomato-jam-950: #1e0608;
+
+  --color-camel-50: #f6f3ee;
+  --color-camel-100: #eee7dd;
+  --color-camel-200: #dccfbc;
+  --color-camel-300: #cbb79a;
+  --color-camel-400: #baa078;
+  --color-camel-500: #a88857;
+  --color-camel-600: #876d45;
+  --color-camel-700: #655134;
+  --color-camel-800: #433623;
+  --color-camel-900: #221b11;
+  --color-camel-950: #18130c;
+
+  --color-ivory-mist-50: #f9f7eb;
+  --color-ivory-mist-100: #f4eed7;
+  --color-ivory-mist-200: #e9ddaf;
+  --color-ivory-mist-300: #ddcc88;
+  --color-ivory-mist-400: #d2bb60;
+  --color-ivory-mist-500: #c7aa38;
+  --color-ivory-mist-600: #9f882d;
+  --color-ivory-mist-700: #776622;
+  --color-ivory-mist-800: #504416;
+  --color-ivory-mist-900: #28220b;
+  --color-ivory-mist-950: #1c1808;
+
+  --color-silver-50: #f2f2f3;
+  --color-silver-100: #e5e6e6;
+  --color-silver-200: #cacdce;
+  --color-silver-300: #b0b4b5;
+  --color-silver-400: #969b9c;
+  --color-silver-500: #7c8183;
+  --color-silver-600: #636869;
+  --color-silver-700: #4a4e4f;
+  --color-silver-800: #313435;
+  --color-silver-900: #191a1a;
+  --color-silver-950: #111212;
+
+  /* Compatibility aliases used by existing components */
+  --sand-100: var(--color-camel-50);
+  --sand-200: var(--color-camel-200);
+  --green-100: var(--color-black-50);
+  --green-700: var(--color-black-500);
+  --green-800: var(--color-black-600);
+  --green-900: var(--color-black-800);
+  --lime-300: var(--color-ivory-mist-300);
+  --ink-400: var(--color-silver-500);
+  --ink-500: var(--color-silver-600);
+  --ink-600: var(--color-silver-700);
+  --ink-700: var(--color-silver-900);
+  --ink-900: var(--color-black-900);
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --font-heading: var(--font-heading);
+  --font-body: var(--font-body);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-camel-100);
+  color: var(--ink-900);
+}
+
+.font-heading {
+  font-family: var(--font-heading), serif;
+}
+
+.font-body {
+  font-family: var(--font-body), sans-serif;
 }
